@@ -54,6 +54,21 @@
     args:
       chdir: "{{ workdir }}"
 
+  - name: Enable IPSec into cluster-network-03-config.yml manifest
+    shell: |
+      cat <<EOF > manifests/cluster-network-03-config.yml
+      apiVersion: operator.openshift.io/v1
+      kind: Network
+      metadata:
+        name: cluster
+      spec:
+        defaultNetwork:
+          ovnKubernetesConfig:
+            ipsecConfig: {}
+      EOF
+    args:
+      chdir: "{{ workdir }}"
+
   - name: Setup network configuration
     template:
       src: ../templates/cluster-network-03-config.yml.j2
